@@ -3,6 +3,7 @@
   const VIEW_ANIMATION = "animation";
   const VIEW_JSON = "json";
 
+  // ページに表示されている生テキストを読み取り、JSONとして解釈できる場合のみ返す。
   const parseDocumentJson = () => {
     const text = document.body?.innerText?.trim();
     if (!text) {
@@ -16,6 +17,7 @@
     }
   };
 
+  // 解析したJSONがLottieの構造らしいかを主要プロパティの有無で判定する。
   const isLikelyLottie = (value) => {
     if (!value || typeof value !== "object" || Array.isArray(value)) {
       return false;
@@ -29,6 +31,7 @@
     return hasVersion && hasFrameRate && hasInOutFrame && hasLayers;
   };
 
+  // chrome.storage.sync から保存済み設定を取得する。
   const storageGet = async (key) => {
     if (!chrome?.storage?.sync) {
       return undefined;
@@ -39,6 +42,7 @@
     });
   };
 
+  // chrome.storage.sync に設定値を保存する。
   const storageSet = async (key, value) => {
     if (!chrome?.storage?.sync) {
       return;
@@ -49,6 +53,7 @@
     });
   };
 
+  // ツールバー用の共通スタイルを持つボタン要素を生成する。
   const createButton = (label) => {
     const button = document.createElement("button");
     button.className = "lx-button";
@@ -57,6 +62,7 @@
     return button;
   };
 
+  // 現在のJSONがLottieだった場合に、ビューアUI全体を初期化する。
   const init = async () => {
     const jsonData = parseDocumentJson();
     if (!isLikelyLottie(jsonData)) {
@@ -147,6 +153,7 @@
     let isPaused = false;
     let isLoop = true;
 
+    // アニメーション表示とJSON表示を切り替え、必要に応じて選択状態を保存する。
     const setView = async (view, persist = false) => {
       currentView = view;
 
