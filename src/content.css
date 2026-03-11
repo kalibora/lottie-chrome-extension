@@ -1,0 +1,98 @@
+:root {
+  --lx-bg: #0f172a;
+  --lx-surface: #111827;
+  --lx-border: #334155;
+  --lx-text: #e5e7eb;
+  --lx-muted: #94a3b8;
+  --lx-accent: #22c55e;
+  --lx-accent-2: #0ea5e9;
+}
+
+body.lx-viewer-enabled {
+  margin: 0;
+  font-family: "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  color: var(--lx-text);
+  background: radial-gradient(circle at top right, #1e293b 0%, var(--lx-bg) 45%, #020617 100%);
+}
+
+#lx-app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+#lx-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--lx-border);
+  background: rgba(2, 6, 23, 0.86);
+  backdrop-filter: blur(4px);
+}
+
+.lx-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lx-button,
+.lx-select {
+  border: 1px solid var(--lx-border);
+  border-radius: 7px;
+  background: var(--lx-surface);
+  color: var(--lx-text);
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.lx-button:hover,
+.lx-select:hover {
+  border-color: var(--lx-accent-2);
+}
+
+.lx-button.active {
+  border-color: var(--lx-accent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--lx-accent) 40%, transparent);
+}
+
+#lx-content {
+  min-height: 0;
+}
+
+#lx-animation-view {
+  min-height: calc(100vh - 52px);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+#lx-animation-container {
+  width: min(92vw, 900px);
+  height: min(80vh, 900px);
+  border: 1px solid var(--lx-border);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0f172a 0%, #111827 100%);
+}
+
+#lx-json-view {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.45;
+  font-size: 13px;
+  padding: 20px;
+  color: var(--lx-text);
+}
+
+#lx-note {
+  color: var(--lx-muted);
+  font-size: 12px;
+  margin-left: auto;
+}

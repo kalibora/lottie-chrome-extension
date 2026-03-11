@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Lottie JSON Viewer",
+  "version": "0.1.0",
+  "description": "Lottie JSONを通常表示とアニメーション表示で切り替えて閲覧するChrome拡張",
+  "permissions": ["storage"],
+  "host_permissions": ["*://*/*.json*"],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*.json*"],
+      "js": ["vendor/lottie.min.js", "src/content.js"],
+      "css": ["src/content.css"],
+      "run_at": "document_end"
+    }
+  ]
+}

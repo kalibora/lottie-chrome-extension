@@ -1,0 +1,15 @@
+{
+  "name": "lottie-chrome-extension",
+  "version": "1.0.0",
+  "description": "Lottie ファイルをブラウザでプレビューするための Chrome 拡張",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lottie-web": "^5.13.0"
+  }
+}
