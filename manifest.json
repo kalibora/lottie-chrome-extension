@@ -3,6 +3,12 @@
   "name": "Lottie JSON Viewer",
   "version": "0.1.0",
   "description": "Lottie JSONを通常表示とアニメーション表示で切り替えて閲覧するChrome拡張",
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "32": "assets/icons/icon-32.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  },
   "permissions": ["storage"],
   "host_permissions": ["*://*/*.json*"],
   "content_scripts": [
