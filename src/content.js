@@ -1,7 +1,16 @@
 (() => {
   const STORAGE_KEY = "defaultView";
+  const BACKGROUND_STORAGE_KEY = "backgroundPreset";
   const VIEW_ANIMATION = "animation";
   const VIEW_JSON = "json";
+  const BACKGROUND_DARK = "dark";
+  const BACKGROUND_LIGHT = "light";
+  const BACKGROUND_CHECKER = "checker";
+  const BACKGROUND_PRESETS = [
+    { value: BACKGROUND_DARK, label: "BG: Dark" },
+    { value: BACKGROUND_LIGHT, label: "BG: Light" },
+    { value: BACKGROUND_CHECKER, label: "BG: Checker" }
+  ];
 
   // ページに表示されている生テキストを読み取り、JSONとして解釈できる場合のみ返す。
   const parseDocumentJson = () => {
@@ -118,11 +127,23 @@
     });
     playbackGroup.append(playPauseBtn, loopBtn, speedSelect);
 
+    const backgroundGroup = document.createElement("div");
+    backgroundGroup.className = "lx-group";
+    const backgroundSelect = document.createElement("select");
+    backgroundSelect.className = "lx-select";
+    BACKGROUND_PRESETS.forEach(({ value, label }) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      backgroundSelect.appendChild(option);
+    });
+    backgroundGroup.append(backgroundSelect);
+
     const note = document.createElement("div");
     note.id = "lx-note";
-    note.textContent = "表示切替は保存されます";
+    note.textContent = "表示切替と背景設定は保存されます";
 
-    toolbar.append(viewGroup, playbackGroup, note);
+    toolbar.append(viewGroup, playbackGroup, backgroundGroup, note);
 
     const content = document.createElement("div");
     content.id = "lx-content";
@@ -152,6 +173,20 @@
     let currentView = VIEW_ANIMATION;
     let isPaused = false;
     let isLoop = true;
+    const savedBackground = (await storageGet(BACKGROUND_STORAGE_KEY)) || BACKGROUND_DARK;
+
+    // アニメーション背景のプリセットを反映し、必要に応じて保存する。
+    const setBackground = async (preset, persist = false) => {
+      const nextPreset = BACKGROUND_PRESETS.some(({ value }) => value === preset)
+        ? preset
+        : BACKGROUND_DARK;
+      animationContainer.dataset.background = nextPreset;
+      backgroundSelect.value = nextPreset;
+
+      if (persist) {
+        await storageSet(BACKGROUND_STORAGE_KEY, nextPreset);
+      }
+    };
 
     // アニメーション表示とJSON表示を切り替え、必要に応じて選択状態を保存する。
     const setView = async (view, persist = false) => {
@@ -196,7 +231,12 @@
       animation.setSpeed(speed);
     });
 
+    backgroundSelect.addEventListener("change", () => {
+      void setBackground(backgroundSelect.value, true);
+    });
+
     await setView(defaultView === VIEW_JSON ? VIEW_JSON : VIEW_ANIMATION, false);
+    await setBackground(savedBackground, false);
 
     document.addEventListener("keydown", (event) => {
       if (event.key.toLowerCase() === "v") {
